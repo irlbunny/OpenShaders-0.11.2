@@ -43,7 +43,7 @@ Shader "Custom/ParametricBox" {
       v2f vert(appdata_t v) {
         v2f o;
         UNITY_SETUP_INSTANCE_ID(v);
-        UNITY_INITIALIZE_OUTPUT(v2f, o);
+        UNITY_TRANSFER_INSTANCE_ID(v, o);
         float3 sizeParams = UNITY_ACCESS_INSTANCED_PROP(MyProperties, _SizeParams);
         float4 vertex = v.vertex;
         vertex.y = (v.vertex.y - sizeParams.z) * sizeParams.y;
