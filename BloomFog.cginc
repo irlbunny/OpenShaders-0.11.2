@@ -20,11 +20,14 @@ float _StereoCameraEyeOffset;
 inline float2 GetBloomPrePassUV(float4 screenPos) {
   float2 screenUV = screenPos.xy / screenPos.w;
 #if UNITY_SINGLE_PASS_STEREO
-  float eyeOffset = (unity_StereoEyeIndex * _StereoCameraEyeOffset + _StereoCameraEyeOffset) + -_StereoCameraEyeOffset;
+  float eyeOffset = (unity_StereoEyeIndex * (_StereoCameraEyeOffset + _StereoCameraEyeOffset)) + -_StereoCameraEyeOffset;
 #else
   float eyeOffset = 0;
 #endif
-  return float2(eyeOffset + screenUV.x + -0.5, screenUV.y + -0.5) * _CustomFogTextureToScreenRatio + 0.5;
+  return float2(
+    (eyeOffset + screenUV.x + -0.5) * _CustomFogTextureToScreenRatio + 0.5,
+    (screenUV.y + -0.5) * _CustomFogTextureToScreenRatio + 0.5
+  );
 }
 
 #define BLOOM_FOG_APPLY(col, screenPos, worldPos, fogStartOffset, fogScale) \

@@ -29,6 +29,7 @@ Shader "Custom/ParametricBox" {
       struct v2f {
         float4 vertex : SV_POSITION;
         float3 worldPos : TEXCOORD1;
+        UNITY_VERTEX_INPUT_INSTANCE_ID
       };
 
       UNITY_INSTANCING_BUFFER_START(MyProperties)
@@ -53,6 +54,7 @@ Shader "Custom/ParametricBox" {
       }
 
       float4 frag(v2f i) : SV_Target {
+        UNITY_SETUP_INSTANCE_ID(i);
         float4 col = UNITY_ACCESS_INSTANCED_PROP(MyProperties, _Color);
         BLOOM_FOG_APPLY_TRANSPARENT(col, i.worldPos, _FogStartOffset, _FogScale);
         return col;
